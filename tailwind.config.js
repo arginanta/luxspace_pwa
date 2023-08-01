@@ -5,7 +5,7 @@ module.exports = {
     extend: {},
     fontFamily: {
       'sans': [
-        '"Josefin Sans"'
+        '"open Sans"'
       ]
     }
   },
