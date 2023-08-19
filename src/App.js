@@ -1,4 +1,5 @@
 import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Header from "./components/Header.js";
 import Hero from "./components/Hero.js";
 import Browse from "./components/Browse.js";
@@ -8,6 +9,7 @@ import AsideMenu from "./components/AsideMenu.js";
 import Footer from "./components/Footer.js";
 import Offline from "./components/Offline.js";
 import Splash from "./pages/Splash.js";
+import Profile from "./pages/Profile.js";
 
 function App() {
   const [items, setItems] = React.useState([]);
@@ -16,39 +18,42 @@ function App() {
 
   const handleOfflineStatus = () => setOfflineStatus(!navigator.onLine);
 
-  React.useEffect(function() {
-    (async function() {
-      const response = await fetch("https://bwacharity.fly.dev/items", {
-        headers: {
-          "Content-Type" : "application/json",
-          "accept": "application/json",
-          // "x-api-key": process.env.REACT_APP_APIKEY,
-        },
-      });
-      const { nodes } = await response.json();
-      setItems(nodes);
+  React.useEffect(
+    function () {
+      (async function () {
+        const response = await fetch("https://bwacharity.fly.dev/items", {
+          headers: {
+            "Content-Type": "application/json",
+            accept: "application/json",
+            // "x-api-key": process.env.REACT_APP_APIKEY,
+          },
+        });
+        const { nodes } = await response.json();
+        setItems(nodes);
 
-      if (!document.querySelector('script[src="/carousel.js"]')) {
-        const script = document.createElement("script");
-        script.src = "/carousel.js";
-        script.async = false;
-        document.body.appendChild(script);
-      }
-    })();
+        if (!document.querySelector('script[src="/carousel.js"]')) {
+          const script = document.createElement("script");
+          script.src = "/carousel.js";
+          script.async = false;
+          document.body.appendChild(script);
+        }
+      })();
 
-    handleOfflineStatus();
-    window.addEventListener("online", handleOfflineStatus);
-    window.addEventListener("offline", handleOfflineStatus);
+      handleOfflineStatus();
+      window.addEventListener("online", handleOfflineStatus);
+      window.addEventListener("offline", handleOfflineStatus);
 
-    setTimeout(function () {
-      setIsLoading(false);
-    }, 1500);
+      setTimeout(function () {
+        setIsLoading(false);
+      }, 1500);
 
-    return function () {
-      window.removeEventListener("online", handleOfflineStatus);
-      window.removeEventListener("offline", handleOfflineStatus);
-    };
-  }, [offlineStatus]);
+      return function () {
+        window.removeEventListener("online", handleOfflineStatus);
+        window.removeEventListener("offline", handleOfflineStatus);
+      };
+    },
+    [offlineStatus]
+  );
 
   return (
     <>
@@ -70,4 +75,13 @@ function App() {
   );
 }
 
-export default App;
+export default function AppRoutes() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<App />} />
+        <Route path="/profile" element={<Profile />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
