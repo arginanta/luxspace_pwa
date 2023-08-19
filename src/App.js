@@ -10,6 +10,7 @@ import Footer from "./components/Footer.js";
 import Offline from "./components/Offline.js";
 import Splash from "./pages/Splash.js";
 import Profile from "./pages/Profile.js";
+import Details from "./pages/Details.js";
 
 function App() {
   const [items, setItems] = React.useState([]);
@@ -62,7 +63,7 @@ function App() {
       ) : (
         <>
           {offlineStatus && <Offline />}
-          <Header />
+          <Header mode="light"/>
           <Hero />
           <Browse />
           <Arrived items={items} />
@@ -81,6 +82,7 @@ export default function AppRoutes() {
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/details/:id" element={<Details />} />
       </Routes>
     </BrowserRouter>
   );
