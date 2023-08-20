@@ -11,13 +11,16 @@ import Offline from "./components/Offline.js";
 import Splash from "./pages/Splash.js";
 import Profile from "./pages/Profile.js";
 import Details from "./pages/Details.js";
+import Cart from "./pages/Cart.js";
 
-function App() {
+function App({cart}) {
   const [items, setItems] = React.useState([]);
   const [offlineStatus, setOfflineStatus] = React.useState(!navigator.onLine);
   const [isLoading, setIsLoading] = React.useState(true);
 
-  const handleOfflineStatus = () => setOfflineStatus(!navigator.onLine);
+  function handleOfflineStatus() {
+    setOfflineStatus(!navigator.onLine);
+  }
 
   React.useEffect(
     function () {
@@ -63,7 +66,7 @@ function App() {
       ) : (
         <>
           {offlineStatus && <Offline />}
-          <Header mode="light"/>
+          <Header mode="light" cart={cart}/>
           <Hero />
           <Browse />
           <Arrived items={items} />
@@ -77,12 +80,28 @@ function App() {
 }
 
 export default function AppRoutes() {
+  const [cart, setCart] = React.useState([]);
+
+  function handleAddToCart(item) {
+    const currentIndex = cart.length;
+    const newCart = [...cart, { id: currentIndex + 1, item}];
+    setCart(newCart);
+  }
+
+  function handleRemoveCartItem(event, id) {
+    const revisedCart = cart.filter(function(item) {
+      return item.id !== id;
+    });
+    setCart(revisedCart);
+  }
+
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<App />} />
+        <Route path="/" element={<App cart={cart} />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/details/:id" element={<Details />} />
+        <Route path="/details/:id" element={<Details handleAddToCart={handleAddToCart} cart={cart} />} />
+        <Route path="/cart" element={<Cart cart={cart} handleRemoveCartItem={handleRemoveCartItem} />} />
       </Routes>
     </BrowserRouter>
   );

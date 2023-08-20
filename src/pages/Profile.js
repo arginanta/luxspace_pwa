@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
+import AsideMenu from "../components/AsideMenu";
+import Footer from "../components/Footer";
 
 function urlB64ToUint8Array(base64String) {
   const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
-  const base64 = (base64String + padding)
-    .replace(/-/g, "+")
-    .replace(/_/g, "/");
+  const base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
 
   const rawData = window.atob(base64);
   const outputArray = new Uint8Array(rawData.length);
@@ -103,9 +103,9 @@ function Profile() {
                   </button>
                 </li>
                 <li className="ml-6">
-                  <a
+                  <Link
                     id="header-cart"
-                    href="cart.html"
+                    to="/cart"
                     className="flex items-center justify-center w-8 h-8 text-black cart cart-filled"
                   >
                     <svg
@@ -130,7 +130,7 @@ function Profile() {
                         />
                       </g>
                     </svg>
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -197,6 +197,8 @@ function Profile() {
           </div>
         </div>
       </section>
+      <AsideMenu />
+      <Footer />
     </>
   );
 }
