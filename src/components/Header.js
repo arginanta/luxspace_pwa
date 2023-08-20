@@ -8,10 +8,12 @@ function Header({ mode, cart }) {
       <div className="container mx-auto py-5">
         <div className="flex flex-stretch items-center">
           <div className="w-56 items-center flex">
-            <img
-              src="../images/content/logo.png"
-              alt="Luxspace | Fulfill your house with beautiful furniture"
-            />
+            <Link to="/">
+              <img
+                src="images/content/logo.png"
+                alt="Luxspace | Fulfill your house with beautiful furniture"
+              />
+            </Link>
           </div>
           <div className="w-full"></div>
           <div className="w-auto">
